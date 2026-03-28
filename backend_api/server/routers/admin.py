@@ -25,12 +25,10 @@ router = APIRouter(prefix="/api/v1/admin", tags=["admin"])
 DEFAULT_PRACTICE_STARTERS = {
     "python": 'name = "Programmer"\nprint(f"Привет, {name}!")\n',
     "javascript": "const name = 'Programmer';\nconsole.log(`Привет, ${name}!`);\n",
-    "csharp": 'using System;\n\nstring name = "Programmer";\nConsole.WriteLine($"Привет, {name}!");\n',
 }
 DEFAULT_PRACTICE_HINTS = {
     "python": "Используй переменные, print и условия из теории.",
     "javascript": "Используй переменные, функцию и console.log.",
-    "csharp": "Используй переменные, Console.WriteLine и if/else при необходимости.",
 }
 
 

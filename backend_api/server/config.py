@@ -50,7 +50,6 @@ class Settings:
     javascript_image: str = os.getenv(
         "JAVASCRIPT_RUNNER_IMAGE", "local-code-runner-javascript:latest"
     )
-    csharp_image: str = os.getenv("CSHARP_RUNNER_IMAGE", "local-code-runner-csharp:latest")
 
     admin_username: str = os.getenv("ADMIN_USERNAME", "admin")
     admin_password: str = os.getenv("ADMIN_PASSWORD", "admin12345")

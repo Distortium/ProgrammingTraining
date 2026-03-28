@@ -1,10 +1,9 @@
-﻿FROM python:3.11-slim
+FROM docker:27-cli AS docker_cli
+FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y docker.io \
-    && rm -rf /var/lib/apt/lists/*
+COPY --from=docker_cli /usr/local/bin/docker /usr/local/bin/docker
 
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt

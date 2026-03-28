@@ -37,8 +37,6 @@ call :ensure_image local-code-runner-python:latest runners\python
 if errorlevel 1 goto :backend_fail
 call :ensure_image local-code-runner-javascript:latest runners\javascript
 if errorlevel 1 goto :backend_fail
-call :ensure_image local-code-runner-csharp:latest runners\csharp
-if errorlevel 1 goto :backend_fail
 
 echo [4/5] Starting PostgreSQL + backend...
 docker compose up -d --build

@@ -26,7 +26,7 @@ class QuizSubmitRequest(BaseModel):
 
 
 class PracticeRunRequest(BaseModel):
-    language: str = Field(pattern="^(python|javascript|csharp)$")
+    language: str = Field(pattern="^(python|javascript)$")
     code: str = Field(min_length=1, max_length=2000)
     lesson_id: int | None = None
 
@@ -44,7 +44,7 @@ class ChatMessageCreate(BaseModel):
 
 
 class AdminCourseCreate(BaseModel):
-    track: str = Field(pattern="^(python|javascript|csharp)$")
+    track: str = Field(pattern="^(python|javascript)$")
     title: str = Field(min_length=3, max_length=128)
     description: str = Field(min_length=3, max_length=5000)
     is_published: bool = True
@@ -90,7 +90,7 @@ class AdminLessonCreate(BaseModel):
     practice_task: str | None = None
     practice_starter: str | None = None
     practice_hint: str | None = None
-    practice_language: str | None = Field(default=None, pattern="^(python|javascript|csharp)$")
+    practice_language: str | None = Field(default=None, pattern="^(python|javascript)$")
 
 
 class AdminLessonUpdate(BaseModel):
@@ -102,7 +102,7 @@ class AdminLessonUpdate(BaseModel):
     practice_task: str | None = None
     practice_starter: str | None = None
     practice_hint: str | None = None
-    practice_language: str | None = Field(default=None, pattern="^(python|javascript|csharp)$")
+    practice_language: str | None = Field(default=None, pattern="^(python|javascript)$")
 
 
 class AdminQuestionCreate(BaseModel):

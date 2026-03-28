@@ -1,10 +1,10 @@
-# Programmer Backend API
+﻿# Programmer Backend API
 
-Основная документация проекта: [../README.md](../README.md)
+Основная документация: [../README.md](../README.md)
 
 Этот файл содержит только backend-специфику.
 
-## Быстрый Запуск Backend
+## Быстрый запуск
 
 ```bat
 cd C:\ss\Programmer\backend_api
@@ -17,27 +17,26 @@ docker compose up -d --build
 curl http://localhost:8000/health
 ```
 
-## Что Поднимается
+## Что поднимается
 
 - `programmer_postgres` (`postgres:16`)
 - `programmer_backend` (FastAPI)
 
-## Runner Images (обязательны)
+## Runner images
 
 - `local-code-runner-python:latest`
 - `local-code-runner-javascript:latest`
-- `local-code-runner-csharp:latest`
 
-`run_project.bat` собирает их автоматически.  
-Если нужен ручной режим:
+`run_project.bat` собирает их автоматически.
+
+Ручная сборка:
 
 ```bat
 docker build -t local-code-runner-python:latest runners/python
 docker build -t local-code-runner-javascript:latest runners/javascript
-docker build -t local-code-runner-csharp:latest runners/csharp
 ```
 
-## Тесты Backend
+## Тесты
 
 ```bat
 cd C:\ss\Programmer\backend_api

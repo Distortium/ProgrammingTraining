@@ -1,7 +1,6 @@
 import shlex
 import subprocess
 import time
-import re
 from dataclasses import dataclass
 from logging import Logger
 from pathlib import Path
@@ -25,8 +24,6 @@ def _get_code_file_name(language: Language) -> str:
         return "main.py"
     if language == Language.JAVASCRIPT:
         return "main.js"
-    if language == Language.CSHARP:
-        return "main.cs"
     raise ValueError(f"Unsupported language: {language}")
 
 
@@ -35,23 +32,12 @@ def _get_image_name(language: Language, settings: Settings) -> str:
         return settings.python_image
     if language == Language.JAVASCRIPT:
         return settings.javascript_image
-    if language == Language.CSHARP:
-        return settings.csharp_image
     raise ValueError(f"Unsupported language: {language}")
 
 
 def _prepare_source_code(language: Language, code: str) -> str:
-    prepared = code.replace("\r\n", "\n")
-    if language != Language.CSHARP:
-        return prepared
-
-    # Keep C# practice friendly: allow short snippets with Console.WriteLine.
-    has_system_using = (
-        re.search(r"(^|\n)\s*(global\s+)?using\s+System\s*;", prepared) is not None
-    )
-    if has_system_using or "System." in prepared:
-        return prepared
-    return f"using System;\n\n{prepared}"
+    _ = language
+    return code.replace("\r\n", "\n")
 
 
 def _is_infra_docker_error(exit_code: int, stderr: str) -> bool:
@@ -118,8 +104,7 @@ def run_user_code(
         temp_dir_path = Path(temp_dir)
         source_file_path = temp_dir_path / code_file_name
         prepared_code = _prepare_source_code(language, code)
-        source_encoding = "utf-8-sig" if language == Language.CSHARP else "utf-8"
-        source_file_path.write_text(prepared_code, encoding=source_encoding)
+        source_file_path.write_text(prepared_code, encoding="utf-8")
 
         target_path_in_container = f"/workspace/{code_file_name}"
         create_command = [
@@ -141,26 +126,6 @@ def run_user_code(
             "/tmp:rw,nosuid,nodev,noexec,size=16m",
             image_name,
         ]
-        if language == Language.CSHARP:
-            target_path_in_container = "/runner/App/main.cs"
-            create_command.extend(
-                [
-                    "/bin/sh",
-                    "-lc",
-                    (
-                        "mkdir -p /workspace && cp /runner/App/main.cs /workspace/main.cs && "
-                        "dotnet build /runner/App/App.csproj --nologo --verbosity quiet --configuration Release "
-                        "--output /tmp/out --property:UseSharedCompilation=false "
-                        "--property:BaseIntermediateOutputPath=/tmp/obj/ "
-                        "--property:IntermediateOutputPath=/tmp/obj/ "
-                        "--property:MSBuildProjectExtensionsPath=/tmp/obj/ "
-                        "--property:RestorePackagesPath=/tmp/nuget/ "
-                        ">/tmp/build_stdout.log 2>/tmp/build_stderr.log || "
-                        "{ cat /tmp/build_stdout.log; cat /tmp/build_stderr.log 1>&2; exit 1; }; "
-                        "dotnet /tmp/out/App.dll"
-                    ),
-                ]
-            )
 
         docker_logger.info(
             "Docker create started: language=%s image=%s file=%s",

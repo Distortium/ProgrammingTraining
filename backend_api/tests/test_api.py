@@ -53,7 +53,7 @@ def test_auth_and_courses():
         assert courses.status_code == 200
         items = courses.json()["items"]
         tracks = {c["track"] for c in items}
-        assert {"python", "javascript", "csharp"}.issubset(tracks)
+        assert {"python", "javascript"}.issubset(tracks)
 
 
 def test_progress_and_quiz_submission():

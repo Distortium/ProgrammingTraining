@@ -1,0 +1,38 @@
+﻿# Secrets and env
+.env
+.env.*
+!.env.example
+backend_api/.env
+backend_api/.env.*
+!backend_api/.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Runtime artifacts
+logs/
+temp_jobs/
+backend_api/logs/
+backend_api/temp_jobs/
+backend_api/test_*.db
+backend_api/test_programmer.db
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Frontend local
+frontend/.cache/

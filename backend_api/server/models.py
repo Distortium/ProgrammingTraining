@@ -9,7 +9,6 @@ from pydantic import BaseModel, Field
 class Language(str, Enum):
     PYTHON = "python"
     JAVASCRIPT = "javascript"
-    CSHARP = "csharp"
 
 
 class JobStatus(str, Enum):

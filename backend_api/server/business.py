@@ -41,28 +41,23 @@ ACHIEVEMENT_SEED = [
     {"code": "xp100", "name": "100 очков", "description": "Набрал 100 XP", "icon": "⚡", "rule_json": {"type": "xp", "min": 100}, "xp_reward": 0},
 ]
 
-SEED_COURSE_VERSION = "seed-v4-2026-03-28-expanded-curriculum"
+SEED_COURSE_VERSION = "seed-v5-2026-03-28-two-tracks"
 
 TRACKS = [
     {"track": "python", "emoji": "🐍", "color": "#06d6a0"},
     {"track": "javascript", "emoji": "🟨", "color": "#f7df1e"},
-    {"track": "csharp", "emoji": "🟣", "color": "#7b2ff7"},
 ]
 
 
 def default_practice_starter(language: str | None) -> str:
     if language == "javascript":
         return "const name = 'Programmer';\nconsole.log(`Привет, ${name}!`);\n"
-    if language == "csharp":
-        return 'using System;\n\nstring name = "Programmer";\nConsole.WriteLine($"Привет, {name}!");\n'
     return 'name = "Programmer"\nprint(f"Привет, {name}!")\n'
 
 
 def default_practice_hint(language: str | None) -> str:
     if language == "javascript":
         return "Используй переменные, console.log и базовые конструкции из теории."
-    if language == "csharp":
-        return "Используй переменные, Console.WriteLine и if/else из теории."
     return "Используй переменные, print и условия из теории."
 
 COURSE_BLUEPRINTS: dict[str, dict[str, Any]] = {
@@ -613,314 +608,7 @@ console.log(habits);</pre>
             },
         ],
     },
-    "csharp": {
-        "title": "C#: от консоли до классов",
-        "description": "Трек 8-15: синтаксис C#, условия, методы и основы ООП.",
-        "modules": [
-            {
-                "title": "Старт в C#",
-                "age_range": "10-12",
-                "difficulty": "easy",
-                "unlock_xp": 0,
-                "xp_reward": 35,
-                "description": "Вывод текста и базовые переменные в C#.",
-                "theory_html": """
-<h3>Первые шаги в C#</h3>
-<p>Для вывода используем <code>Console.WriteLine()</code>.</p>
-<pre>using System;
-
-string name = "Олег";
-int age = 11;
-Console.WriteLine($"Привет, {name}! Тебе {age} лет.");</pre>
-""",
-                "practice_task": "Создай переменные name и hobby, выведи сообщение о себе.",
-                "practice_starter": (
-                    "using System;\n\n"
-                    'string name = "Олег";\n'
-                    'string hobby = "робототехника";\n'
-                    'Console.WriteLine($"Меня зовут {name}, мое хобби — {hobby}.");\n'
-                ),
-                "practice_hint": "Используй строковые переменные и Console.WriteLine.",
-                "practice_check_mode": "contains_all",
-                "practice_check_value": "WriteLine,string",
-                "quiz": [
-                    {
-                        "text": "Какая команда печатает текст в C#?",
-                        "options": [
-                            {"text": "Console.WriteLine()", "is_correct": True},
-                            {"text": "console.log()", "is_correct": False},
-                            {"text": "print()", "is_correct": False},
-                        ],
-                    },
-                    {
-                        "text": "Какой тип подходит для возраста?",
-                        "options": [
-                            {"text": "int", "is_correct": True},
-                            {"text": "bool", "is_correct": False},
-                            {"text": "char", "is_correct": False},
-                        ],
-                    },
-                ],
-            },
-            {
-                "title": "Условия и методы",
-                "age_range": "12-13",
-                "difficulty": "medium",
-                "unlock_xp": 30,
-                "xp_reward": 50,
-                "description": "Пишем метод и используем if для решения задачи.",
-                "theory_html": """
-<h3>Решаем задачи через методы</h3>
-<p>Метод объединяет действия в отдельный блок кода.</p>
-<pre>using System;
-
-int Sum(int a, int b) {
-    return a + b;
 }
-
-int result = Sum(7, 5);
-if (result >= 10) {
-    Console.WriteLine("Отлично");
-}</pre>
-""",
-                "practice_task": "Сделай метод Total(points) и выведи \"Победа\", если сумма >= 20.",
-                "practice_starter": (
-                    "using System;\n\n"
-                    "int Total(int[] points) {\n"
-                    "    int sum = 0;\n"
-                    "    foreach (int p in points) {\n"
-                    "        sum += p;\n"
-                    "    }\n"
-                    "    return sum;\n"
-                    "}\n\n"
-                    "int[] points = {6, 7, 8};\n"
-                    "int total = Total(points);\n"
-                    "if (total >= 20) {\n"
-                    "    Console.WriteLine(\"Победа\");\n"
-                    "} else {\n"
-                    "    Console.WriteLine(\"Еще попытка\");\n"
-                    "}\n"
-                ),
-                "practice_hint": "Нужны метод, return и if.",
-                "practice_check_mode": "contains_all",
-                "practice_check_value": "return,if,WriteLine",
-                "quiz": [
-                    {
-                        "text": "Зачем нужен метод в C#?",
-                        "options": [
-                            {"text": "Чтобы переиспользовать код", "is_correct": True},
-                            {"text": "Чтобы удалить проект", "is_correct": False},
-                            {"text": "Чтобы менять операционную систему", "is_correct": False},
-                        ],
-                    },
-                    {
-                        "text": "Что делает if?",
-                        "options": [
-                            {"text": "Проверяет условие", "is_correct": True},
-                            {"text": "Создает массив", "is_correct": False},
-                            {"text": "Сохраняет файл", "is_correct": False},
-                        ],
-                    },
-                ],
-            },
-            {
-                "title": "Классы и мини-проект",
-                "age_range": "13-15",
-                "difficulty": "hard",
-                "unlock_xp": 80,
-                "xp_reward": 70,
-                "description": "Создаем класс и используем объект в мини-проекте.",
-                "theory_html": """
-<h3>Основы ООП в C#</h3>
-<p>Класс описывает модель объекта, а экземпляр класса хранит конкретные данные.</p>
-<pre>using System;
-
-var bot = new Robot("Codey");
-Console.WriteLine(bot.Hello());
-
-class Robot {
-    public string Name { get; }
-    public Robot(string name) { Name = name; }
-    public string Hello() => $"Я робот {Name}";
-}</pre>
-""",
-                "practice_task": "Создай класс Hero с полем Name и методом Intro(), затем выведи приветствие героя.",
-                "practice_starter": (
-                    "using System;\n\n"
-                    "var hero = new Hero(\"Nova\");\n"
-                    "Console.WriteLine(hero.Intro());\n\n"
-                    "class Hero {\n"
-                    "    public string Name { get; }\n\n"
-                    "    public Hero(string name) {\n"
-                    "        Name = name;\n"
-                    "    }\n\n"
-                    "    public string Intro() {\n"
-                    "        return $\"Я герой {Name}\";\n"
-                    "    }\n"
-                    "}\n"
-                ),
-                "practice_hint": "Нужны class, конструктор и метод с return.",
-                "practice_check_mode": "contains_all",
-                "practice_check_value": "class,return,WriteLine",
-                "quiz": [
-                    {
-                        "text": "Что описывает класс?",
-                        "options": [
-                            {"text": "Шаблон объекта", "is_correct": True},
-                            {"text": "Только одно число", "is_correct": False},
-                            {"text": "Список библиотек", "is_correct": False},
-                        ],
-                    },
-                    {
-                        "text": "Что такое объект hero?",
-                        "options": [
-                            {"text": "Экземпляр класса Hero", "is_correct": True},
-                            {"text": "Имя файла", "is_correct": False},
-                            {"text": "Тип данных bool", "is_correct": False},
-                        ],
-                    },
-                ],
-            },
-            {
-                "title": "Коллекции и аналитика",
-                "age_range": "12-14",
-                "difficulty": "medium",
-                "unlock_xp": 140,
-                "xp_reward": 80,
-                "description": "Учимся работать со списками и считать базовую статистику.",
-                "theory_html": """
-<h3>Списки в C#</h3>
-<p>Коллекция <code>List&lt;T&gt;</code> помогает хранить набор значений и проходить по ним циклом.</p>
-<pre>using System;
-using System.Collections.Generic;
-
-var points = new List<int> { 7, 8, 10, 9 };
-int total = 0;
-foreach (int p in points) {
-    total += p;
-}
-
-double avg = (double)total / points.Count;
-Console.WriteLine($"Средний балл: {avg:F1}");</pre>
-""",
-                "practice_task": "Создай List<int> points, посчитай сумму и средний балл, затем выведи оценку результата.",
-                "practice_starter": (
-                    "using System;\n"
-                    "using System.Collections.Generic;\n\n"
-                    "var points = new List<int> { 7, 8, 10, 9, 6 };\n"
-                    "int total = 0;\n\n"
-                    "foreach (int p in points) {\n"
-                    "    total += p;\n"
-                    "}\n\n"
-                    "double avg = (double)total / points.Count;\n"
-                    "Console.WriteLine($\"Средний балл: {avg:F1}\");\n\n"
-                    "if (avg >= 8) {\n"
-                    "    Console.WriteLine(\"Отличный прогресс\");\n"
-                    "} else if (avg >= 6.5) {\n"
-                    "    Console.WriteLine(\"Хороший результат\");\n"
-                    "} else {\n"
-                    "    Console.WriteLine(\"Нужно потренироваться\");\n"
-                    "}\n"
-                ),
-                "practice_hint": "Тебе нужны List<int>, foreach, вычисление average и Console.WriteLine.",
-                "practice_check_mode": "contains_all",
-                "practice_check_value": "List,foreach,Console.WriteLine",
-                "quiz": [
-                    {
-                        "text": "Что хранит List<int>?",
-                        "options": [
-                            {"text": "Список целых чисел", "is_correct": True},
-                            {"text": "Только один символ", "is_correct": False},
-                            {"text": "Только строки", "is_correct": False},
-                        ],
-                    },
-                    {
-                        "text": "Зачем приводить total к double перед делением?",
-                        "options": [
-                            {"text": "Чтобы получить дробный средний балл", "is_correct": True},
-                            {"text": "Чтобы удалить остаток", "is_correct": False},
-                            {"text": "Это нужно только в JavaScript", "is_correct": False},
-                        ],
-                    },
-                ],
-            },
-            {
-                "title": "Финальный мини-проект: менеджер задач",
-                "age_range": "14-15",
-                "difficulty": "hard",
-                "unlock_xp": 220,
-                "xp_reward": 100,
-                "description": "Собираем консольный менеджер задач на классах и списках.",
-                "theory_html": """
-<h3>Структура проекта на C#</h3>
-<p>Финальный проект строится из модели данных (class), списка элементов и функций работы с ними.</p>
-<pre>using System;
-using System.Collections.Generic;
-
-class TaskItem {
-    public string Title { get; }
-    public bool Done { get; set; }
-    public TaskItem(string title) { Title = title; Done = false; }
-}
-
-var tasks = new List<TaskItem>();
-tasks.Add(new TaskItem("Подготовить презентацию"));
-Console.WriteLine(tasks[0].Title);</pre>
-""",
-                "practice_task": "Создай class TaskItem и функции AddTask/PrintTasks, добавь 3 задачи и выведи их.",
-                "practice_starter": (
-                    "using System;\n"
-                    "using System.Collections.Generic;\n\n"
-                    "class TaskItem {\n"
-                    "    public string Title { get; }\n"
-                    "    public bool Done { get; set; }\n\n"
-                    "    public TaskItem(string title) {\n"
-                    "        Title = title;\n"
-                    "        Done = false;\n"
-                    "    }\n"
-                    "}\n\n"
-                    "void AddTask(List<TaskItem> tasks, string title) {\n"
-                    "    tasks.Add(new TaskItem(title));\n"
-                    "}\n\n"
-                    "void PrintTasks(List<TaskItem> tasks) {\n"
-                    "    foreach (var task in tasks) {\n"
-                    "        string mark = task.Done ? \"✅\" : \"⬜\";\n"
-                    "        Console.WriteLine($\"{mark} {task.Title}\");\n"
-                    "    }\n"
-                    "}\n\n"
-                    "var tasks = new List<TaskItem>();\n"
-                    "AddTask(tasks, \"Сделать домашку\");\n"
-                    "AddTask(tasks, \"Повторить циклы\");\n"
-                    "AddTask(tasks, \"Подготовить проект\");\n"
-                    "tasks[1].Done = true;\n"
-                    "PrintTasks(tasks);\n"
-                ),
-                "practice_hint": "Используй class, List<TaskItem>, методы AddTask и PrintTasks.",
-                "practice_check_mode": "contains_all",
-                "practice_check_value": "class,List,Console.WriteLine,AddTask",
-                "quiz": [
-                    {
-                        "text": "Зачем нужен класс TaskItem?",
-                        "options": [
-                            {"text": "Чтобы описать одну задачу с полями", "is_correct": True},
-                            {"text": "Чтобы хранить только числа", "is_correct": False},
-                            {"text": "Чтобы заменить цикл foreach", "is_correct": False},
-                        ],
-                    },
-                    {
-                        "text": "Что даёт List<TaskItem> в проекте?",
-                        "options": [
-                            {"text": "Хранение и обработку множества задач", "is_correct": True},
-                            {"text": "Только запуск программы", "is_correct": False},
-                            {"text": "Автоматический UI", "is_correct": False},
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-}
-
 
 def compute_level(xp: int) -> int:
     level = 1
@@ -1081,6 +769,14 @@ def _needs_course_reseed(db: Session) -> bool:
     seed_courses = db.scalars(
         select(Course).where(Course.created_by.is_(None), Course.track.in_(tracks))
     ).all()
+    stale_seed_courses = db.scalar(
+        select(func.count(Course.id)).where(
+            Course.created_by.is_(None),
+            ~Course.track.in_(tracks),
+        )
+    ) or 0
+    if stale_seed_courses:
+        return True
     if len(seed_courses) != len(tracks):
         return True
     return any(
@@ -1089,10 +785,7 @@ def _needs_course_reseed(db: Session) -> bool:
 
 
 def _reseed_courses(db: Session) -> None:
-    tracks = [t["track"] for t in TRACKS]
-    old_seed_courses = db.scalars(
-        select(Course).where(Course.created_by.is_(None), Course.track.in_(tracks))
-    ).all()
+    old_seed_courses = db.scalars(select(Course).where(Course.created_by.is_(None))).all()
     for course in old_seed_courses:
         db.delete(course)
     db.flush()

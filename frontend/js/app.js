@@ -471,10 +471,9 @@ function defaultStarterForLanguage(language) {
     );
   }
   return (
-    "using System;\n\n" +
-    'string name = "Programmer";\n' +
-    "int xp = 10;\n" +
-    'Console.WriteLine($"Привет, {name}! XP: {xp}");\n'
+    'name = "Programmer"\n' +
+    'xp = 10\n' +
+    'print(f"Привет, {name}! XP: {xp}")\n'
   );
 }
 
@@ -483,9 +482,6 @@ function renderPractice(lesson, container) {
   const starterCode = (lesson.practice_starter || '').trim() || defaultStarterForLanguage(practiceLang);
   const taskText = lesson.practice_task || 'Выполни задание в редакторе';
   const hintText = lesson.practice_hint || 'Используй знания из теории';
-  const csharpNote = practiceLang === 'csharp'
-    ? '<div class="info-box"><span class="ib-icon">ℹ️</span><p><strong>C#:</strong> можно писать короткий фрагмент, полный шаблон файла не обязателен.</p></div>'
-    : '';
 
   container.innerHTML = `
     <div class="lesson-section"><h3>🎯 Задание</h3><p>${escapeHtml(taskText)}</p></div>
@@ -494,7 +490,6 @@ function renderPractice(lesson, container) {
       <textarea class="code-textarea" id="practice-editor" rows="8"></textarea>
       <div class="editor-output" id="practice-output">> Нажми "Запустить" чтобы увидеть результат</div>
     </div>
-    ${csharpNote}
     <div class="info-box"><span class="ib-icon">💡</span><p><strong>Подсказка:</strong> ${escapeHtml(hintText)}</p></div>
   `;
   qs('practice-editor').value = starterCode;
