@@ -1,0 +1,28 @@
+﻿# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime artifacts
+logs/
+temp_jobs/
+test_*.db
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+

@@ -1,0 +1,291 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programmer — Учись программировать!</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./css/main.css?v=20260328-3" />
+</head>
+<body>
+<div class="stars"></div>
+<div class="particles-layer" id="particles-layer"></div>
+
+<div id="page-auth" class="page">
+  <div class="auth-box">
+    <div class="auth-hero">
+      <span class="big-emoji">🚀</span>
+      <h1>Programmer</h1>
+      <p>Полная версия хакатон-платформы</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Войти</button>
+      <button class="auth-tab" data-tab="register">Регистрация</button>
+    </div>
+    <div id="auth-error" class="auth-error"></div>
+
+    <div id="form-login">
+      <div class="form-group">
+        <label>Имя пользователя</label>
+        <input type="text" id="login-user" placeholder="Введи имя" />
+      </div>
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" id="login-pass" placeholder="••••••••" />
+      </div>
+      <button class="btn-primary" id="btn-login">Войти в игру! 🎮</button>
+    </div>
+
+    <div id="form-register" style="display:none">
+      <div class="form-group">
+        <label>Роль</label>
+        <select id="reg-role">
+          <option value="student">Ученик</option>
+          <option value="parent">Родитель</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Имя пользователя</label>
+        <input type="text" id="reg-user" placeholder="Придумай ник" />
+      </div>
+      <div class="form-group" id="reg-age-wrap">
+        <label>Возраст</label>
+        <select id="reg-age">
+          <option value="">Выбери возраст</option>
+          <option>7</option><option>8</option><option>9</option><option>10</option>
+          <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" id="reg-pass" placeholder="Минимум 4 символа" />
+      </div>
+      <button class="btn-primary" id="btn-register">Создать аккаунт 🌟</button>
+    </div>
+  </div>
+</div>
+
+<div id="app" style="display:none; flex-direction:column; min-height:100vh;">
+  <div class="header">
+    <div class="logo" id="logo-home"><span class="logo-icon">🚀</span> Programmer</div>
+    <div class="header-right">
+      <span class="role-badge" id="hdr-role">student</span>
+      <div class="xp-badge">⚡ <span id="hdr-xp">0</span> XP</div>
+      <div class="level-badge">Ур. <span id="hdr-level">1</span></div>
+      <label class="settings-toggle"><input type="checkbox" id="toggle-sound" checked /> звук</label>
+      <label class="settings-toggle"><input type="checkbox" id="toggle-particles" checked /> эффекты</label>
+      <button class="avatar-btn" id="btn-open-profile">😎</button>
+      <button class="btn-logout" id="btn-logout">Выйти</button>
+    </div>
+  </div>
+
+  <div id="page-home" class="page">
+    <div class="home-content">
+      <div class="welcome-banner">
+        <div>
+          <h2>Привет, <span id="home-username">Герой</span>! 👋</h2>
+          <p>Выбери трек и продолжай обучение</p>
+          <div class="xp-bar-wrap">
+            <div class="xp-bar-label"><span>Уровень <span id="home-level">1</span></span><span><span id="home-xp">0</span> / <span id="home-xp-next">100</span> XP</span></div>
+            <div class="xp-bar"><div class="xp-bar-fill" id="home-xp-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <span class="banner-emoji">🎮</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" id="stat-lessons">0</div><div class="stat-lbl">Уроков</div></div>
+        <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-val" id="stat-achievements">0</div><div class="stat-lbl">Достижений</div></div>
+        <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-val" id="stat-stars">0</div><div class="stat-lbl">Звёзд</div></div>
+        <div class="stat-card"><div class="stat-icon">🧠</div><div class="stat-val" id="stat-correct">0</div><div class="stat-lbl">Верных ответов</div></div>
+      </div>
+
+      <div class="tab-row" id="track-tabs"></div>
+      <div class="section-title"><span class="dot"></span> Модули обучения</div>
+      <div class="modules-grid" id="modules-grid"></div>
+
+      <div class="section-title"><span class="dot"></span> Достижения</div>
+      <div class="achievements-row" id="achievements-row"></div>
+    </div>
+    <div class="bottom-nav" id="bottom-nav-home"></div>
+  </div>
+
+  <div id="page-lesson" class="page">
+    <div class="lesson-layout">
+      <div class="lesson-sidebar"><div class="sidebar-title">Содержание</div><div id="lesson-sidebar-items"></div></div>
+      <div class="lesson-main">
+        <div class="lesson-header">
+          <div class="lesson-breadcrumb"><span id="bc-back-home">🏠 Главная</span> › <span id="bc-module">Модуль</span></div>
+          <div class="lesson-title-row"><span class="lesson-emoji" id="lesson-emoji">📖</span><h1 class="lesson-title" id="lesson-title">Урок</h1></div>
+          <div class="lesson-progress-wrap"><div class="lesson-progress-bar"><div class="lesson-progress-fill" id="lesson-prog-fill" style="width:0%"></div></div><span class="lesson-progress-txt" id="lesson-prog-txt">0 / 0</span></div>
+        </div>
+        <div id="lesson-body"></div>
+        <div class="lesson-nav"><button class="btn-secondary" id="btn-back-home">← Назад</button><button class="btn-next" id="btn-next-lesson">Дальше →</button></div>
+      </div>
+    </div>
+    <div class="bottom-nav" id="bottom-nav-lesson"></div>
+  </div>
+
+  <div id="page-profile" class="page">
+    <div class="profile-content">
+      <div class="section-title" style="margin-bottom:20px"><span class="dot"></span> Мой профиль</div>
+      <div class="profile-hero">
+        <div class="profile-avatar">😎</div>
+        <div class="profile-info">
+          <h2 id="profile-name">—</h2>
+          <p id="profile-joined">Дата регистрации: —</p>
+          <div class="profile-badges">
+            <span class="pbadge">⚡ <span id="profile-xp">0</span> XP</span>
+            <span class="pbadge">Уровень <span id="profile-level">1</span></span>
+            <span class="pbadge">⭐ <span id="profile-stars">0</span> звёзд</span>
+          </div>
+        </div>
+      </div>
+      <div class="section-title"><span class="dot"></span> Достижения</div>
+      <div class="achievements-row" id="profile-achievements"></div>
+      <div class="section-title" style="margin-top:24px"><span class="dot"></span> Прогресс по модулям</div>
+      <div id="profile-modules" style="display:grid; gap:12px;"></div>
+    </div>
+    <div class="bottom-nav" id="bottom-nav-profile"></div>
+  </div>
+
+  <div id="page-community" class="page">
+    <div class="community-content">
+      <div class="section-title"><span class="dot"></span> Таблица лидеров 🏆</div>
+      <div class="leaderboard-table" id="leaderboard-table"></div>
+
+      <div class="section-title" style="margin-top:24px"><span class="dot"></span> Лента</div>
+      <div class="input-row"><input id="feed-input" placeholder="Поделись результатом" /><button class="btn-mini" id="feed-send">Опубликовать</button></div>
+      <div class="feed-list" id="feed-list"></div>
+
+      <div class="section-title" style="margin-top:24px"><span class="dot"></span> Общий чат</div>
+      <div class="chat-box"><div class="chat-list" id="chat-list"></div></div>
+      <div class="input-row"><input id="chat-input" placeholder="Сообщение" /><button class="btn-mini" id="chat-send">Отправить</button></div>
+    </div>
+    <div class="bottom-nav" id="bottom-nav-community"></div>
+  </div>
+
+  <div id="page-parent" class="page">
+    <div class="community-content">
+      <div class="section-title"><span class="dot"></span> Родительский контроль</div>
+      <div id="student-family-note" style="display:none; color:var(--text2); margin-bottom:12px;">
+        Здесь отображаются входящие запросы родителей на привязку аккаунта.
+      </div>
+      <div class="panel-grid" id="parent-panel-grid">
+        <div class="panel-card" id="parent-request-card">
+          <h3>Запрос привязки ребёнка</h3>
+          <div class="input-row"><input id="parent-child-username" placeholder="username ребёнка" /><button class="btn-mini" id="parent-send-request">Отправить</button></div>
+        </div>
+        <div class="panel-card" id="parent-children-card">
+          <h3>Мои дети</h3>
+          <div id="parent-children" class="parent-children-list"></div>
+        </div>
+      </div>
+      <div class="panel-card" id="parent-progress-card" style="margin-top:14px">
+        <h3>Детальный прогресс</h3>
+        <div id="parent-child-progress" class="child-progress-empty">Выбери ребёнка</div>
+      </div>
+      <div class="panel-card" id="student-incoming-wrap" style="margin-top:14px; display:none">
+        <h3>Входящие запросы родителей</h3>
+        <div class="request-list" id="incoming-requests"></div>
+      </div>
+    </div>
+    <div class="bottom-nav" id="bottom-nav-parent"></div>
+  </div>
+
+  <div id="page-admin" class="page">
+    <div class="community-content admin-content">
+      <div class="section-title"><span class="dot"></span> Конструктор курсов (Admin)</div>
+      <div class="admin-summary" id="admin-summary"></div>
+      <div class="admin-builder-grid">
+        <div class="panel-card admin-card">
+          <h3>Создать курс</h3>
+          <div class="input-row">
+            <select id="admin-course-track">
+              <option value="python">python</option>
+              <option value="javascript">javascript</option>
+              <option value="csharp">csharp</option>
+            </select>
+          </div>
+          <div class="input-row"><input id="admin-course-title" placeholder="Название курса" /></div>
+          <div class="input-row"><textarea id="admin-course-desc" placeholder="Описание курса"></textarea></div>
+          <button class="btn-mini" id="admin-create-course">Создать курс</button>
+        </div>
+        <div class="panel-card admin-card">
+          <h3>Создать модуль</h3>
+          <div class="input-row"><select id="admin-module-course-id"></select></div>
+          <div class="input-row"><input id="admin-module-title" placeholder="Название модуля" /></div>
+          <div class="input-row"><textarea id="admin-module-desc" placeholder="Описание модуля"></textarea></div>
+          <div class="input-row">
+            <select id="admin-module-difficulty">
+              <option value="easy">easy</option>
+              <option value="medium">medium</option>
+              <option value="hard">hard</option>
+            </select>
+            <input type="number" id="admin-module-unlock-xp" min="0" value="0" placeholder="unlock_xp" />
+            <input type="number" id="admin-module-xp-reward" min="0" value="20" placeholder="xp_reward" />
+          </div>
+          <div class="input-row">
+            <input id="admin-module-emoji" value="📦" placeholder="emoji" />
+            <input id="admin-module-color" type="color" value="#06d6a0" />
+          </div>
+          <button class="btn-mini" id="admin-create-module">Создать модуль</button>
+        </div>
+        <div class="panel-card admin-card">
+          <h3>Создать урок</h3>
+          <div class="input-row"><select id="admin-lesson-module-id"></select></div>
+          <div class="input-row">
+            <select id="admin-lesson-type">
+              <option value="theory">theory</option>
+              <option value="quiz">quiz</option>
+              <option value="practice">practice</option>
+            </select>
+            <select id="admin-lesson-language">
+              <option value="python">python</option>
+              <option value="javascript">javascript</option>
+              <option value="csharp">csharp</option>
+            </select>
+            <input type="number" id="admin-lesson-xp-reward" min="0" value="10" placeholder="xp_reward" />
+          </div>
+          <div class="input-row"><input id="admin-lesson-title" placeholder="Название урока" /></div>
+          <div class="input-row"><textarea id="admin-lesson-body" placeholder="Теория или текст задания"></textarea></div>
+          <div class="input-row"><textarea id="admin-lesson-starter" placeholder="Код-заготовка (только practice)"></textarea></div>
+          <div class="input-row"><input id="admin-lesson-hint" placeholder="Подсказка (только practice)" /></div>
+          <button class="btn-mini" id="admin-create-lesson">Создать урок</button>
+        </div>
+        <div class="panel-card admin-card">
+          <h3>Создать вопрос (quiz)</h3>
+          <div class="input-row"><select id="admin-question-lesson-id"></select></div>
+          <div class="input-row"><textarea id="admin-question-text" placeholder="Текст вопроса"></textarea></div>
+          <div class="input-row"><input id="admin-question-opt1" placeholder="Вариант 1" /></div>
+          <div class="input-row"><input id="admin-question-opt2" placeholder="Вариант 2" /></div>
+          <div class="input-row"><input id="admin-question-opt3" placeholder="Вариант 3" /></div>
+          <div class="input-row"><input id="admin-question-opt4" placeholder="Вариант 4" /></div>
+          <div class="input-row">
+            <select id="admin-question-correct">
+              <option value="1">Правильный: 1</option>
+              <option value="2">Правильный: 2</option>
+              <option value="3">Правильный: 3</option>
+              <option value="4">Правильный: 4</option>
+            </select>
+          </div>
+          <button class="btn-mini" id="admin-create-question">Добавить вопрос</button>
+        </div>
+      </div>
+      <div class="panel-card admin-tree-card" style="margin-top:14px">
+        <h3>Структура курсов</h3>
+        <div id="admin-courses-list"></div>
+      </div>
+    </div>
+    <div class="bottom-nav" id="bottom-nav-admin"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+<div class="modal-overlay" id="modal-levelup"><div class="modal"><span class="modal-emoji">🎉</span><h2>Новый уровень!</h2><p>Ты перешёл на следующий уровень!</p><div class="xp-earned">Уровень <span id="modal-new-level">2</span></div><button class="btn-primary" id="btn-close-levelup" style="max-width:200px;margin:0 auto">Ура! 🚀</button></div></div>
+<div class="modal-overlay" id="modal-lesson-done"><div class="modal"><span class="modal-emoji">⭐</span><h2 id="modal-ld-title">Урок пройден!</h2><p id="modal-ld-text">Отличная работа!</p><div class="xp-earned">+<span id="modal-ld-xp">20</span> XP</div><button class="btn-primary" id="btn-close-lesson-done" style="max-width:220px;margin:0 auto">Продолжить 🎮</button></div></div>
+
+<script src="./js/app.js?v=20260328-5"></script>
+</body>
+</html>
+

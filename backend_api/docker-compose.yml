@@ -1,0 +1,49 @@
+﻿services:
+  postgres:
+    image: postgres:16
+    container_name: programmer_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: programmer
+      POSTGRES_USER: programmer
+      POSTGRES_PASSWORD: programmer
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U programmer -d programmer"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - programmer_pg_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: programmer_backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://programmer:programmer@postgres:5432/programmer
+      FRONTEND_ORIGINS: http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:8080,http://localhost:8080
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: admin12345
+      SESSION_SECURE_COOKIE: "false"
+      API_HOST: 0.0.0.0
+      API_PORT: 8000
+      PYTHON_RUNNER_IMAGE: local-code-runner-python:latest
+      JAVASCRIPT_RUNNER_IMAGE: local-code-runner-javascript:latest
+      CSHARP_RUNNER_IMAGE: local-code-runner-csharp:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs:/app/logs
+      - ./temp_jobs:/app/temp_jobs
+
+volumes:
+  programmer_pg_data:
+
