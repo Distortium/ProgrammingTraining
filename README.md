@@ -50,7 +50,8 @@
 
 ## Быстрый запуск
 
-Из корня проекта:
+1. Запусти `Docker Desktop` и дождись статуса `Engine running`.
+2. Из корня проекта запусти:
 
 ```bat
 run_project.bat
@@ -192,10 +193,3 @@ cd C:\ss\Programmer\backend_api
 docker compose ps
 docker compose logs --tail=100 backend
 ```
-
-### Если backend долго собирается на шаге apt-get
-
-В текущей версии это уже исправлено: backend-образ не ставит `docker.io` через apt.
-Он копирует `docker` CLI из `docker:27-cli` (multi-stage build).
-
-Если видишь в логах старый шаг `apt-get install -y docker.io` или сборку лишнего runner-образа, значит запущена старая версия проекта. Обнови репозиторий и запусти снова.
